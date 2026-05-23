@@ -616,7 +616,6 @@ export function PropertyForm({
                             placeholder={"No Smoking\nSmoking is not allowed inside the property.\nNo Parties\nLarge gatherings are strictly prohibited.\nQuiet Hours\nQuiet hours are from 10:00 PM to 8:00 AM."}
                             value={formData.houseRules}
                             onChange={(e) => setFormData({ ...formData, houseRules: e.target.value })}
-                            placeholder="Enter house rules, quiet hours, etc..."
                             rows={5}
                         />
                     </div>
