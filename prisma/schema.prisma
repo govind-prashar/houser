@@ -1,0 +1,103 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String     @default("USER")
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  otp           String?
+  otpExpires    DateTime?
+  bookings      Booking[]
+  properties    Property[]
+  reviews       Review[]
+}
+
+model Property {
+  id              String        @id @default(auto()) @map("_id") @db.ObjectId
+  slug            String?       @unique
+  title           String
+  metaDescription String?
+  description     String
+  price           Float
+  location        String
+  latitude        Float?
+  longitude       Float?
+  type            String
+  amenities       String
+  images          String
+  maxGuests       Int
+  bedrooms        Int           @default(1)
+  beds            Int           @default(1)
+  bathrooms       Float         @default(1.0)
+  squareFeet      Int?
+  rating          Float         @default(0)
+  cleaningFee     Float?        @default(0)
+  serviceFee      Float?        @default(0)
+  monthlyPrice    Float?
+  priceDisplay    String        @default("nightly")
+  guestAccess     String?
+  neighborhood    String?
+  interaction     String?
+  houseRules      String?
+  notes           String?
+  gettingAround   String?
+  checkIn         String        @default("04:00 PM")
+  checkOut        String        @default("11:00 AM")
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  hostId          String        @db.ObjectId
+  bookings        Booking[]
+  host            User          @relation(fields: [hostId], references: [id], onDelete: Cascade)
+  reviews         Review[]
+  pricingRules    PricingRule[]
+}
+
+model PricingRule {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  propertyId String   @db.ObjectId
+  startDate  DateTime
+  endDate    DateTime
+  price      Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  startDate  DateTime
+  endDate    DateTime
+  totalPrice Float
+  status     String   @default("CONFIRMED")
+  guests     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  userId     String   @db.ObjectId
+  propertyId String   @db.ObjectId
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating     Int
+  comment    String
+  createdAt  DateTime @default(now())
+  userId     String   @db.ObjectId
+  propertyId String   @db.ObjectId
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
