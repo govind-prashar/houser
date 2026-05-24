@@ -82,15 +82,7 @@ export function PropertyCard({
                             </span>
                         )}
 
-                        {priceDisplay !== "none" && (
-                            <div className="absolute bottom-4 left-4">
-                                <span className="text-white text-sm font-light tracking-wide"
-                                    style={{ textShadow: "0 1px 8px rgba(0,0,0,0.6)" }}>
-                                    ${displayPrice}
-                                    <span className="text-white/60 text-xs ml-1">{priceSuffix}</span>
-                                </span>
-                            </div>
-                        )}
+
                     </div>
 
                     <div className="pt-4 pb-6">
@@ -105,10 +97,18 @@ export function PropertyCard({
                             <MapPin size={11} className="shrink-0" style={{ color: "#C9A84C" }} />
                             <span className="text-xs tracking-wide">{location}</span>
                         </div>
-                        <div className="flex items-center gap-3 text-[11px] text-muted-foreground uppercase tracking-[0.15em]">
-                            <span>{beds} Beds</span>
-                            <span style={{ color: "#C9A84C" }}>·</span>
-                            <span>{baths} Baths</span>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3 text-[11px] text-muted-foreground uppercase tracking-[0.15em]">
+                                <span>{beds} Beds</span>
+                                <span style={{ color: "#C9A84C" }}>·</span>
+                                <span>{baths} Baths</span>
+                            </div>
+                            {priceDisplay !== "none" && (
+                                <span className="text-sm font-light text-foreground tracking-wide">
+                                    ${displayPrice}
+                                    <span className="text-muted-foreground text-xs ml-1">{priceSuffix}</span>
+                                </span>
+                            )}
                         </div>
                     </div>
                 </article>

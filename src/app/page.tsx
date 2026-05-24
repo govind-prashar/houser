@@ -127,7 +127,7 @@ export default async function Home() {
           </div>
           <div className="relative h-[500px] overflow-hidden">
             <img
-              src={discoverImage}
+              src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2670&auto=format&fit=crop"
               alt="Luxury living — Canderra"
               className="w-full h-full object-cover"
             />
